@@ -20,13 +20,7 @@ app.set('view engine','ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 
 /* Routes */
-// app.use('/auth', require('./routes/auth'));
-// app.use('/sponsors', isAuth, require('./routes/sponsors'));
-// app.use('/type_sponsors', isAuth, require('./routes/typeSponsors'));
-// app.use('/upload', isAuth, require('./routes/upload'));
-app.use('/client' , require('./routes/client'));
-// app.use('/cotizaciones',   require('./routes/cotizaciones'))
-// app.use('/servicios_cotizacion',isAuth, require('./routes/serviciosCotizacion'))
-// app.use('/meeting',isAuth, require('./routes/meeting'))
+app.use('/auth', require('./routes/auth')); 
+app.use('/client' , require('./routes/client')); 
 
 module.exports = app;
