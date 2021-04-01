@@ -8,6 +8,7 @@ if (!sequelize) {
     username: database.user,
     password: database.password,
     host: database.host,
+    port: database.port,
     dialect: database.dialect,
     pool: database.pool,
     logging: false,
