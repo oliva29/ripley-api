@@ -26,8 +26,9 @@ async function OAuthRegister(req, res) {
       }); 
    
   } catch (error) {  
+    console.log(error);
     if ( parseInt( error.parent.code , 10) === 23505) {
-      console.log(error.parent.code);
+      
       return res.send({
         message: 'Usuario ya registrado.',
         exist: true
