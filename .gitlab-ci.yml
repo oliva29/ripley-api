@@ -1,0 +1,10 @@
+deploy:
+  stage: deploy
+  tags:
+    - shell-api-media-impact
+  script:
+    - chmod +x deploy/deploy.sh
+    - chmod +x deploy/updateAndRestart.sh
+    - deploy/deploy.sh
+  only:
+    - jesus-dev

@@ -1,0 +1,131 @@
+<html>
+                <head>
+                    <meta charset="utf8">
+                    <title>SuitArt Business Card</title>
+                    <style>
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                        font-family: 'Sackers Gothic Std';
+                        font-weight: 500;
+                        font-size: 7px;
+                        background: rgb(241,241,241);
+                        -webkit-print-color-adjust: exact;
+                        box-sizing: border-box;
+                    }
+
+                    .page {
+                        position: relative; 
+                        display: block; 
+                        page-break-after: auto; 
+                        overflow: hidden;
+                    }
+
+                    @media print {
+                        
+                        .page {
+                        margin: 0;
+                        height: 100%;
+                        width: 100%;
+                        }
+                    }
+
+                    
+
+                    .bottom {
+                        position: absolute;
+                        left: 5mm;
+                        right: 5mm;
+                        bottom: 5mm;
+                    }
+
+                    .group {
+                        margin-top: 3mm;
+                    }
+
+                    .line {
+                        color: white;
+                        position: relative;
+                    }
+
+                    .center {
+                        text-align: center;
+                    }
+
+                    .logo {
+                        position: relative;
+                        width: 100%;
+                        left: 0;
+                        top: 0;
+                    }
+
+                    </style>
+                </head>
+                <body>
+                
+                    <div class="page">
+                    <img class="logo" src="https://ticket.mediaimpact.digital/img/backgroundpdf.png">
+                    <div class="content bottom" style="padding: 150px 80px 50px 100px; font-size: 10px; ">
+                      <p>
+                          Lima, ${array_date[0]} de ${mes} del ${array_date[2]}<br><br>
+                          ${getRs()}
+                          ${getRuc()}
+                          ${getCliente()}<br>
+                          Datos del proveedor:<br>
+                          Razón Social: MEDIA IMPACT PERU S.A.C<br>
+                          RUC: 20556395820
+                      </p>
+                      <h2 style="text-align: center; margin-top: 50px;">
+                          COTIZACIÓN #${cotizacion.num}<br>
+                      </h2>
+                      <h2 style="text-align: center; margin-bottom: 50px">
+                          ${cotizacion.nombreCotizacion || ''}
+                      </h2>
+                      ${
+                          Object.keys(ServiciosC).map((key) => {
+                              if (ServiciosC[key].descuento != null) {
+                                  if (ServiciosC[key].descuento > 0) {
+                                      const calc = ServiciosC[key].total - (ServiciosC[key].total * (ServiciosC[key].descuento/100))
+                                      inversionTotal+=parseFloat(calc)
+                                  } else {
+                                      inversionTotal+=parseFloat(ServiciosC[key].total)
+                                  }
+                              } else {
+                                  inversionTotal+=parseFloat(ServiciosC[key].total)
+                              }
+                              return `
+                                  <div style="margin-bottom: 10px">
+                                      <p>
+                                          ${ServiciosC[key].title}<br>
+                                          ${ServiciosC[key].description}
+                                      </p><br>
+                                      <p style="text-align: right;font-weight:bold">
+                                          Inversión 
+                                          ${getMoneda(cotizacion.tipoMoneda)}
+                                          ${ServiciosC[key].total}
+                                          ${getIgv(cotizacion.booleanIgv)}
+                                          ${getDescuento(ServiciosC[key])}
+                                      </p><br>
+                                  </div>${getSpace(key)}
+                              `
+                          })
+                      }
+                      <p style="text-align: right; font-weight: bold">
+                          Inversión final: 
+                          ${getMoneda(cotizacion.tipoMoneda)}
+                          ${getInversionTotal(cotizacion.booleanInversion)}
+                          ${getIgv(cotizacion.booleanIgv)}
+                      </p>
+                      ${getSpace(ServiciosC.length)}
+                      <div style="margin-top: 20px">
+                          <h4>CONSIDERACIONES DEL SERVICIO</h4>
+                          ${cotizacion.consideraciones}
+                      </div>
+                      <div>
+                      <h4>ACCIONES NO INCLUIDAS EN EL PRESUPUESTO</h4>
+                          ${cotizacion.acciones}
+                      </div>
+                  </div>
+                    </div>
+                </body>
+                </html>
